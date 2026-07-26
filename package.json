@@ -1,0 +1,31 @@
+{
+  "name": "asakusa-gyokukan",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -b --pretty false",
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create asakusa-gyokukan",
+    "db:local": "wrangler d1 migrations apply asakusa-gyokukan --local",
+    "db:remote": "wrangler d1 migrations apply asakusa-gyokukan --remote"
+  },
+  "dependencies": {
+    "hono": "^4.10.0",
+    "lucide": "^0.468.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.45.0",
+    "@cloudflare/workers-types": "^5.20260715.1",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.23.1",
+    "typescript": "^5.7.2",
+    "vite": "^7.0.0",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.111.0"
+  }
+}

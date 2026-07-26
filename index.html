@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d0a1c" />
+    <title>浅草玉简 · 拾取散落于网络深处的微光</title>
+    <meta name="description" content="浅草玉简 · 一处收藏网络微光的流体空间：网站导航、书签收藏、标签化知识库。" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#bookmark-list">跳到收藏内容</a>
+    <div class="page-noise" aria-hidden="true"></div>
+    <header class="site-header" id="site-header">
+      <a class="brand" href="/" aria-label="浅草玉简首页">
+        <span class="brand-seal"><i>玉</i></span>
+        <span class="brand-wordmark"><b>浅草玉简</b><small>ASAKUSA GYOKUKAN</small></span>
+      </a>
+      <div class="header-center" aria-hidden="true"><span></span><small>LIQUID WEB ARCHIVE</small><span></span></div>
+      <div class="header-actions">
+        <button id="login-button" class="icon-button login-button" type="button"><span data-lucide="key-round"></span><i>登录</i></button>
+        <span id="session-label" class="session-label" hidden><span data-lucide="badge-check"></span>已登录</span>
+        <button id="logout-button" class="icon-button" type="button" hidden><span data-lucide="log-out"></span><i>退出</i></button>
+        <button id="add-button" class="primary-button" type="button" hidden><span data-lucide="plus"></span><i>收录</i></button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="hero">
+        <div class="hero-atmosphere" aria-hidden="true">
+          <span class="aura aura-one"></span><span class="aura aura-two"></span>
+          <span class="star star-one"></span><span class="star star-two"></span><span class="star star-three"></span>
+        </div>
+        <div class="hero-copy">
+          <p class="hero-mark"><span>网络收藏</span><i></i><span>灵感归档</span></p>
+          <h1><span class="line line-one">拾取散落于</span><span class="line line-two">网络深处的<i>微光</i></span></h1>
+          <div class="hero-bottom">
+            <p class="hero-description">我们每天穿过无数页面。这里不追赶信息洪流，只封存那些值得再次抵达的坐标。</p>
+            <button class="explore-link" id="enter-archive" type="button" aria-label="进入玉简档案"><span>进入玉简</span><i data-lucide="arrow-right"></i></button>
+          </div>
+        </div>
+
+        <div class="jade-stage" id="jade-stage" aria-hidden="true">
+          <canvas id="jade-canvas"></canvas>
+          <div class="jade-halo"></div>
+          <div class="jade-rings"><i></i><i></i><i></i></div>
+          <div class="jade-core-copy"><span>GYOKUKAN</span><b id="total-count">0</b><small>PIECES OF LIGHT</small></div>
+          <span class="stage-note note-top">COLLECTED<br />FROM THE OPEN WEB</span>
+          <span class="stage-note note-bottom">浅草 · 数字玉境</span>
+        </div>
+
+        <div class="scroll-cue" aria-hidden="true"><span></span><small>SCROLL TO DISSOLVE</small></div>
+      </section>
+
+      <section class="archive" id="archive">
+        <div class="archive-intro">
+          <div>
+            <p class="archive-count"><span id="visible-count">00</span> / ARCHIVE</p>
+            <h2>微光抵达之处</h2>
+          </div>
+          <p>每一枚玉简，都是一次与未来自己的重逢。筛选、搜索，然后重新进入那片网络。</p>
+        </div>
+
+        <div class="archive-toolbar" id="archive-toolbar">
+          <div class="search-box">
+            <span data-lucide="search"></span>
+            <input id="search-input" type="search" placeholder="搜索网站、标签或记忆…" autocomplete="off" aria-label="搜索收藏" />
+            <kbd>⌘ K</kbd>
+          </div>
+          <nav class="category-filter" id="category-filter" aria-label="分类筛选"></nav>
+        </div>
+
+        <section class="collection" aria-live="polite">
+          <p id="status-region" class="sr-only" role="status">正在载入收藏</p>
+          <div id="skeleton" class="skeleton-grid" aria-hidden="true">
+            <div class="skeleton-card"></div><div class="skeleton-card"></div><div class="skeleton-card"></div>
+          </div>
+          <ul id="bookmark-list" class="bookmark-grid"></ul>
+          <div id="empty-state" class="empty-state" hidden>
+            <span class="empty-glyph" data-lucide="orbit"></span>
+            <h2 id="empty-title">暂未收录</h2>
+            <p id="empty-copy">收藏的第一枚玉简，会从这里开始。</p>
+            <button id="empty-action" class="primary-button" type="button"><span data-lucide="plus"></span><i>收录第一枚</i></button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="toast-region" class="toast-region" role="status" aria-live="polite"></div>
+
+    <dialog id="login-dialog" class="modal" aria-labelledby="login-title">
+      <form id="login-form" method="dialog" class="modal-card compact" onclick="event.stopPropagation()">
+        <div class="modal-glyph"><span data-lucide="fingerprint"></span></div>
+        <p class="modal-mark">PRIVATE ARCHIVE</p>
+        <h2 id="login-title">进入收藏者模式</h2>
+        <p class="modal-sub">验证身份后，私藏玉简与编辑工具会从暗处显现。</p>
+        <label class="field"><span>访问密钥</span><input id="password-input" name="password" type="password" autocomplete="current-password" required /></label>
+        <p id="login-error" class="form-error" hidden></p>
+        <div class="modal-actions"><button type="button" class="secondary-button" data-close>返回</button><button type="submit" class="primary-button"><span>进入玉境</span></button></div>
+      </form>
+    </dialog>
+
+    <dialog id="editor-dialog" class="modal" aria-labelledby="editor-title">
+      <form id="editor-form" method="dialog" class="modal-card" onclick="event.stopPropagation()">
+        <p class="modal-mark">ARCHIVE A NEW LIGHT</p><h2 id="editor-title">收录玉简</h2><p class="modal-sub">记录一处值得重访的网络角落。</p>
+        <input id="bookmark-id" type="hidden" />
+        <div class="form-grid">
+          <label class="field"><span>名称</span><input id="title-input" name="title" type="text" required maxlength="200" placeholder="例如：Hermes Agent" /></label>
+          <label class="field"><span>网址</span><input id="url-input" name="url" type="url" required placeholder="https://" /></label>
+          <label class="field full"><span>简介</span><textarea id="description-input" name="description" rows="3" maxlength="1000" placeholder="这处角落为何值得收藏？"></textarea></label>
+          <label class="field"><span>分类</span><input id="category-input" name="category" type="text" list="category-options" maxlength="60" placeholder="未分类" /></label>
+          <label class="field"><span>标签</span><input id="tags-input" name="tags" type="text" maxlength="200" placeholder="逗号分隔" /></label>
+          <fieldset class="field full visibility-field"><legend>可见性</legend><label><input type="radio" name="visibility" value="public" checked /><span><i data-lucide="globe-2"></i><b>公开</b><small>所有访客可见</small></span></label><label><input type="radio" name="visibility" value="private" /><span><i data-lucide="lock-keyhole"></i><b>私藏</b><small>仅收藏者可见</small></span></label></fieldset>
+        </div>
+        <datalist id="category-options"></datalist><p id="editor-error" class="form-error" hidden></p>
+        <div class="modal-actions"><button type="button" class="secondary-button" data-close>取消</button><button type="submit" class="primary-button"><span>封存玉简</span></button></div>
+      </form>
+    </dialog>
+
+    <dialog id="delete-dialog" class="modal" aria-labelledby="delete-title">
+      <form id="delete-form" method="dialog" class="modal-card compact" onclick="event.stopPropagation()">
+        <input id="delete-id" type="hidden" /><div class="modal-glyph danger"><span data-lucide="archive-x"></span></div><p class="modal-mark">REMOVE FROM ARCHIVE</p><h2 id="delete-title">移入回收</h2>
+        <p class="modal-sub">「<strong id="delete-name"></strong>」会被移入回收区。</p><p id="delete-error" class="form-error" hidden></p>
+        <div class="modal-actions"><button type="button" class="secondary-button" data-close>保留</button><button type="submit" class="danger-button"><span>移入回收</span></button></div>
+      </form>
+    </dialog>
+
+    <footer class="site-footer"><div><b>浅草玉简</b><small>ASAKUSA GYOKUKAN</small></div><p>拾取散落于网络深处的微光<br /><span>A FLUID ARCHIVE OF THE OPEN WEB · <span id="year"></span></span></p><a href="#main" id="back-to-depth">返回深处 <i data-lucide="arrow-up"></i></a></footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
