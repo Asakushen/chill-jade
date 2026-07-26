@@ -29,9 +29,9 @@ The instance owner must provide both values through the agent's secret/config me
 | Variable | Example | Meaning |
 | --- | --- | --- |
 | `CHILL_JADE_API_URL` | `https://bookmarks.example.com` | Base URL of the owner's Chill Jade deployment; no trailing slash |
-| `CHILL_JADE_API_KEY` | stored as a secret | Optional Bearer API key for trusted automation |
+| `CHILL_JADE_API_KEY` | stored as a secret | Required Bearer API key for non-browser automation |
 
-The API key has administrator-level bookmark access. If it is unavailable, use the regular web login flow or ask the instance owner to configure a key. Do not ask the user to paste a long-lived key into ordinary chat when a secret store is available.
+The API key has administrator-level bookmark access. The command examples in this skill require it. If it is unavailable, do not attempt these automation commands: use the regular web login flow instead, or ask the instance owner to configure a key in their secret store. Do not ask the user to paste a long-lived key into ordinary chat.
 
 Validate the base URL before calling it:
 
@@ -50,10 +50,10 @@ For production deployments, prefer HTTPS. `http://localhost` and `http://127.0.0
 
 Treat a specific article URL as an article, not as a request to save the entire domain. Preserve the user's stated privacy preference:
 
-- “private”, “only for me”, “私密” → `"visibility": "private"`
-- otherwise → `"visibility": "public"`
+- “public”, “share it”, “公开” → `"visibility": "public"`
+- all other cases, including an unspecified preference → `"visibility": "private"`
 
-Do not silently publish a user's personal link collection. If the user has not expressed a preference and their instance is shared, ask whether the record should be public or private.
+Do not silently publish a user's personal link collection. Keep an unspecified bookmark private; ask before making it public when that choice matters.
 
 ### 2. Fetch metadata safely
 
@@ -104,6 +104,12 @@ curl --fail-with-body --silent --show-error \
 Build JSON with a proper JSON serializer. Do not interpolate unescaped user/page data into shell JSON.
 
 ```bash
+set -euo pipefail
+payload_file="$(mktemp /tmp/chill-jade-bookmark.XXXXXX.json)"
+chmod 600 "$payload_file"
+trap 'rm -f "$payload_file"' EXIT HUP INT TERM
+export PAYLOAD_FILE="$payload_file"
+
 python3 - <<'PY'
 import json, os
 payload = {
@@ -115,7 +121,7 @@ payload = {
   "visibility": os.environ.get("VISIBILITY", "private"),
   "accent": os.environ.get("ACCENT", "jade"),
 }
-with open("/tmp/chill-jade-bookmark.json", "w", encoding="utf-8") as f:
+with open(os.environ["PAYLOAD_FILE"], "w", encoding="utf-8") as f:
     json.dump(payload, f, ensure_ascii=False)
 PY
 
@@ -123,8 +129,7 @@ curl --fail-with-body --silent --show-error \
   -X POST "$CHILL_JADE_API_URL/api/bookmarks" \
   -H "Authorization: Bearer $CHILL_JADE_API_KEY" \
   -H "Content-Type: application/json" \
-  --data-binary @/tmp/chill-jade-bookmark.json
-rm -f /tmp/chill-jade-bookmark.json
+  --data-binary @"$payload_file"
 ```
 
 A successful response returns HTTP 201 and an `id`. Report the title, URL, category, tags, and visibility, but never echo the API key.

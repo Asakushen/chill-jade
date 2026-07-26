@@ -30,7 +30,7 @@ CHILL_JADE_API_URL=https://bookmarks.example.com
 CHILL_JADE_API_KEY=<store-this-as-a-secret>
 ```
 
-The API key can write, edit, delete, and export bookmarks. Keep it out of chat logs, `.env` files that are tracked by Git, screenshots, and any copied skill directory.
+The API key can write, edit, delete, and export bookmarks. For non-browser automation it is required, so keep it in the instance owner's secret/config store; do not put it in chat logs, tracked `.env` files, screenshots, or any copied skill directory. If a secret store is unavailable, use the normal browser login flow rather than pasting a long-lived key into a conversation.
 
 ## What it does
 
