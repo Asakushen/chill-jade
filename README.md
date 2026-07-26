@@ -55,7 +55,7 @@ Cloudflare D1
 - 已登录 Wrangler：`npx wrangler login`
 
 ```bash
-git clone https://github.com/Asakushen/asakusa-gyokukan.git
+git clone https://github.com/Asakushen/asakusa-gyokukan-oss.git
 cd asakusa-gyokukan
 npm install
 ```
