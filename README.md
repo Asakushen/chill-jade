@@ -205,6 +205,12 @@ curl -X POST https://YOUR_WORKER.workers.dev/api/bookmarks \
 - 当前实现适合**单管理员、低到中等风险的个人部署**；若要面向多用户或高风险场景，应在 Worker 前增加身份提供商、速率限制、审计日志与 CSRF 防护策略。
 - 发现安全问题请勿公开 issue；请通过 GitHub 个人资料中的私密联系方式报告。
 
+## Hermes Agent skill
+
+This repository ships an installable, instance-neutral **Chill Jade** skill at [`skills/chill-jade/`](skills/chill-jade/). It guides Hermes through safe link refinement, duplicate checks, visibility choices, and API writes without containing any real endpoint, database ID, password, API key, export, or personal bookmarks.
+
+See [the skill's installation and configuration guide](skills/chill-jade/README.md).
+
 ## 开源许可
 
 本项目采用 [MIT License](LICENSE) 发布。欢迎 fork、改造与部署；若它成为你日常收集网络微光的小小容器，我会很高兴。
