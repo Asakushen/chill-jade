@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">浅草玉简的运行结构</title><desc id="desc">浏览器通过 Cloudflare Worker 的 Hono API 访问 D1；管理员会话和可信自动化 API key 负责写入。</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#1e293b" stroke-width="1"/></pattern>
+    <linearGradient id="jade" x1="0" x2="1"><stop stop-color="#22c55e"/><stop offset="1" stop-color="#14b8a6"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"/></marker>
+  </defs>
+  <rect width="1600" height="900" fill="#020617"/><rect width="1600" height="900" fill="url(#grid)" opacity=".65"/>
+  <text x="100" y="105" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="45" font-weight="700">一枚玉简，怎样在边缘运行</text>
+  <text x="103" y="150" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="22">浅草玉简 · Cloudflare Workers + Hono + D1</text>
+  <g stroke="#94a3b8" stroke-width="3" fill="none" marker-end="url(#arrow)"><path d="M430 415 H570"/><path d="M970 415 H1110"/><path d="M770 590 V690"/></g>
+  <g font-family="system-ui, sans-serif"><rect x="120" y="310" width="310" height="210" rx="22" fill="#0c2534" stroke="#22d3ee" stroke-width="3"/><text x="160" y="385" fill="#67e8f9" font-size="31" font-weight="700">浏览器</text><text x="160" y="428" fill="#cbd5e1" font-size="20">原生 TypeScript SPA</text><text x="160" y="463" fill="#94a3b8" font-size="18">公开浏览 · 登录管理</text>
+  <rect x="570" y="290" width="400" height="250" rx="22" fill="#083b2c" stroke="url(#jade)" stroke-width="4" filter="url(#glow)"/><text x="615" y="370" fill="#86efac" font-size="33" font-weight="700">Cloudflare Worker</text><text x="615" y="415" fill="#d1fae5" font-size="22">Hono API + 静态资源</text><text x="615" y="455" fill="#a7f3d0" font-size="19">会话 Cookie · Bearer API key</text><text x="615" y="490" fill="#6ee7b7" font-size="19">PBKDF2 · HMAC 签名</text>
+  <rect x="1110" y="310" width="310" height="210" rx="22" fill="#2e195a" stroke="#a78bfa" stroke-width="3"/><text x="1150" y="385" fill="#c4b5fd" font-size="31" font-weight="700">Cloudflare D1</text><text x="1150" y="428" fill="#ddd6fe" font-size="20">SQLite at the edge</text><text x="1150" y="463" fill="#a78bfa" font-size="18">书签 · 标签 · 可见性</text>
+  <rect x="560" y="690" width="420" height="115" rx="20" fill="#3a260d" stroke="#fbbf24" stroke-width="3"/><text x="605" y="755" fill="#fde68a" font-size="27" font-weight="700">可信自动化（可选）</text><text x="605" y="785" fill="#fcd34d" font-size="18">只保存 API key 的 SHA-256 哈希</text></g>
+  <g font-family="system-ui, sans-serif" font-size="17"><circle cx="110" cy="850" r="7" fill="#22d3ee"/><text x="128" y="856" fill="#cbd5e1">前端</text><circle cx="235" cy="850" r="7" fill="#22c55e"/><text x="253" y="856" fill="#cbd5e1">后端</text><circle cx="360" cy="850" r="7" fill="#a78bfa"/><text x="378" y="856" fill="#cbd5e1">数据</text><circle cx="480" cy="850" r="7" fill="#fbbf24"/><text x="498" y="856" fill="#cbd5e1">自动化</text></g>
+</svg>
