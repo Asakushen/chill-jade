@@ -1,4 +1,4 @@
-# 浅草玉简 · Asakusa Gyokukan
+# Chill Jade · 浅草玉简
 
 > 拾取散落于网络深处的微光。
 
@@ -6,7 +6,7 @@
 [![Hono](https://img.shields.io/badge/API-Hono-e36002)](https://hono.dev/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-22c55e.svg)](LICENSE)
 
-**浅草玉简**是一个可自托管、移动端优先的个人书签收藏站：把网址、描述、分类与标签收进一方轻盈的「玉简」。它采用 Cloudflare Workers + D1，在边缘运行；没有追踪脚本，没有第三方数据库，也不要求前端框架。
+**Chill Jade（浅草玉简）**是一个可自托管、移动端优先的个人书签收藏站。这里的“浅草”对应作者的网名 **Chill**，不是日本地名：把网址、描述、分类与标签收进一方轻盈的「玉简」。它采用 Cloudflare Workers + D1，在边缘运行；没有追踪脚本，没有第三方数据库，也不要求前端框架。
 
 > 本仓库是可独立部署的开源版本。示例与配置不包含生产数据库、域名、书签数据或任何访问凭据。
 
@@ -55,7 +55,7 @@ Cloudflare D1
 - 已登录 Wrangler：`npx wrangler login`
 
 ```bash
-git clone https://github.com/Asakushen/asakusa-gyokukan-oss.git
+git clone https://github.com/Asakushen/chill-jade.git
 cd asakusa-gyokukan
 npm install
 ```
