@@ -128,9 +128,12 @@ function makeCard(item: Bookmark, index: number): HTMLElement {
 
   const body = document.createElement("div"); body.className = "card-body";
   const category = document.createElement("p"); category.className = "card-category"; category.textContent = item.category || "未分类";
+  const titleLink = document.createElement("a"); titleLink.className = "card-title-link"; titleLink.href = item.url; titleLink.target = "_blank"; titleLink.rel = "noopener noreferrer";
   const title = document.createElement("h3"); title.textContent = item.title;
+  titleLink.append(title);
+  titleLink.addEventListener("click", () => { void fetch(`/api/bookmarks/${encodeURIComponent(item.id)}/click`, { method: "POST", keepalive: true }); });
   const description = document.createElement("p"); description.className = "card-description"; description.textContent = item.description || "一处等待再次探访的网络坐标。";
-  body.append(category, title, description);
+  body.append(category, titleLink, description);
 
   if (item.tags?.length) {
     const tags = document.createElement("div"); tags.className = "tags";
