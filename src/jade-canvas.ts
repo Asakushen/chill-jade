@@ -6,11 +6,16 @@ export function initJadeCanvas(): void {
   if (!canvasElement || !stageElement) return;
   const drawingContext = canvasElement.getContext("2d", { alpha: true });
   if (!drawingContext) return;
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  // Respect reduced-motion: skip the rAF loop entirely (saves battery/CPU).
+  // The static CSS halo + ring decoration already provides a composed static look.
+  if (reduced.matches) return;
+
   const canvas: HTMLCanvasElement = canvasElement;
   const stage: HTMLElement = stageElement;
   const context: CanvasRenderingContext2D = drawingContext;
 
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
   const coarse = window.matchMedia("(pointer: coarse)");
   const orbs: Orb[] = Array.from({ length: coarse.matches ? 7 : 10 }, (_, index) => ({
     x: 0, y: 0,
