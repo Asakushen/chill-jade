@@ -77,6 +77,7 @@ app.get("/api/bookmarks", async (context) => {
   const authenticated = context.get("authenticated");
   const search = (context.req.query("q") ?? "").trim();
   const category = (context.req.query("category") ?? "").trim();
+  const exactUrl = (context.req.query("url") ?? "").trim();
   let sql = `SELECT id,title,url,description,category,tags,visibility,accent,is_favorite,is_pinned,click_count,created_at,updated_at
              FROM agy_bookmarks WHERE deleted_at IS NULL`;
   const params: string[] = [];
@@ -85,6 +86,10 @@ app.get("/api/bookmarks", async (context) => {
     sql += " AND (title LIKE ? OR url LIKE ? OR description LIKE ? OR tags LIKE ?)";
     const pattern = `%${search}%`;
     params.push(pattern, pattern, pattern, pattern);
+  }
+  if (exactUrl) {
+    sql += " AND url = ? COLLATE NOCASE";
+    params.push(exactUrl);
   }
   if (category) { sql += " AND category = ?"; params.push(category); }
   sql += " ORDER BY is_pinned DESC, updated_at DESC";
@@ -110,12 +115,21 @@ app.post("/api/bookmarks", async (context) => {
   const id = crypto.randomUUID();
   const now = new Date().toISOString();
   const tags = Array.isArray(body.tags) ? [...new Set(body.tags.map((tag) => String(tag).trim()).filter(Boolean))] : [];
-  await context.env.DB.prepare(`INSERT INTO agy_bookmarks
-    (id,title,url,description,category,tags,visibility,accent,created_at,updated_at)
-    VALUES (?,?,?,?,?,?,?,?,?,?)`).bind(
-      id, title, url, body.description?.trim() ?? "", body.category?.trim() ?? "未分类", JSON.stringify(tags),
-      body.visibility === "private" ? "private" : "public", body.accent ?? "jade", now, now,
-    ).run();
+  try {
+    await context.env.DB.prepare(`INSERT INTO agy_bookmarks
+      (id,title,url,description,category,tags,visibility,accent,created_at,updated_at)
+      VALUES (?,?,?,?,?,?,?,?,?,?)`).bind(
+        id, title, url, body.description?.trim() ?? "", body.category?.trim() ?? "未分类", JSON.stringify(tags),
+        body.visibility === "private" ? "private" : "public", body.accent ?? "jade", now, now,
+      ).run();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (message.includes("UNIQUE constraint failed") && message.includes("url")) {
+      return context.json({ error: "该链接已在玉简中", url }, 409);
+    }
+    console.error("bookmark insert failed", message);
+    return context.json({ error: "保存失败，请稍后重试" }, 500);
+  }
   return context.json({ id }, 201);
 });
 
